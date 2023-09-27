@@ -1,8 +1,10 @@
 const slider = document.querySelector("#slider");
+const arrows = document.querySelectorAll(".arrow");
 let isDragging = false;
 let scrollLeft;
 let pointA;
 let distance;
+
 
 
 function autoSlide() {
@@ -13,9 +15,6 @@ function autoSlide() {
 
   distance = Math.abs(distance);
   const diference = sliderWidth - distance;
-
-  console.log('scroleft: ', scrollLeft);
-  console.log('slider.scrollLeft:', slider.scrollLeft);
 
   if (slider.scrollLeft > scrollLeft) {
     slider.scrollLeft += distance > sliderWidth / 3 ? diference : -distance;
@@ -55,6 +54,23 @@ function handleEnd() {
   autoSlide();
   isDragging = false;
 }
+
+arrows.forEach((arrow) => {
+  arrow.addEventListener("click", function(e) {
+    e.preventDefault();
+    const sliderWidth = slider.clientWidth;
+    
+    slider.scrollLeft += arrow.id == 'arrow-right' ? sliderWidth : -sliderWidth;
+  })
+})
+
+
+// mostra os ícones de direção < >
+setInterval(() => {
+  const sliderScrollWidth = slider.scrollWidth - slider.clientWidth;
+  arrows[0].style.color = slider.scrollLeft === 0 ? 'transparent' : '#121212';
+  arrows[1].style.color = slider.scrollLeft === sliderScrollWidth ? 'transparent' : '#121212';
+}, 100);
 
 
 slider.addEventListener("mousedown", handleStart);
