@@ -16,11 +16,13 @@ function autoSlide() {
   distance = Math.abs(distance);
   const diference = sliderWidth - distance;
 
+  // significa que o slider está sendo rolado para a esquerda
   if (slider.scrollLeft > scrollLeft) {
     slider.scrollLeft += distance > sliderWidth / 3 ? diference : -distance;
     return
   }
 
+  // significa que o slider está sendo rolado para a direita
   slider.scrollLeft -= distance > sliderWidth / 3 ? diference : -distance;
 }
 
@@ -72,6 +74,14 @@ setInterval(() => {
   arrows[1].style.color = slider.scrollLeft === sliderScrollWidth ? 'transparent' : '#121212';
 }, 100);
 
+
+setInterval(() => {
+  const sliderWidth = slider.clientWidth;
+  const sliderScrollWidth = slider.scrollWidth - slider.clientWidth;
+
+  slider.scrollLeft = slider.scrollLeft >= sliderScrollWidth ? 0 : slider.scrollLeft += sliderWidth;
+
+}, 1000)
 
 slider.addEventListener("mousedown", handleStart);
 slider.addEventListener("touchstart", handleStart);
